@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+<div class="container">
+    <div class="error">
+        {% if form.errors %}
+            <p>{{ form.city_input.errors|striptags }}</p>
+        {% endif %}
+        {% if messages %}
+            {% for msg in messages %}
+                {{ msg }}
+            {% endfor %}
+        {% endif %}
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.city_input }}
+        <button type="submit">show weather</button>
+    </form>
+    <div class="weather-container{% if show_weather_flag %} show{% endif %}">
+        <div class="top">
+            <div class="left">
+                <span class="info">{{ country }}-{{ city|upper }}</span>
+                <span class="temp">{{ temp }}&deg</span>
+            </div>
+            <div class="right">
+                <span class="date">{{ current_time }}</span>
+            </div>
+        </div>
+        <div class="description">
+            <img src="http://openweathermap.org/img/w/{{ icon }}.png">
+            <span class="description-title">Clear</span>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
